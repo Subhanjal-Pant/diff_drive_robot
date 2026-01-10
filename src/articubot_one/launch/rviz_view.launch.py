@@ -52,5 +52,5 @@ def generate_launch_description():
         robot_state_publisher_gui,
         rviz_node,
         bridge,
-        
+    bla bla checking git
     ])
