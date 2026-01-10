@@ -1,0 +1,7 @@
+ros2 run ros_gz_bridge parameter_bridge \
+  /cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist \
+  /joint_states@sensor_msgs/msg/JointState@gz.msgs.Model \
+  /clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock
+  
+  
+  for bridging between telop_keyboard and gazebo harmonic

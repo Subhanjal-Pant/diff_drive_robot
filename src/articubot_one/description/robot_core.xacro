@@ -1,0 +1,205 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    
+    <material name="white">
+        <color rgba="1 1 1 1" />
+    </material>
+    
+    <material name="orange">
+        <color rgba="1 0.3 0.1 1" />
+    </material>
+    
+    <material name="blue">
+        <color rgba="0.2 0.2 1 1" />
+    </material>
+    
+    <material name="black">
+        <color rgba="0 0 0 1" />
+    </material>
+
+    <xacro:property name="box_x" value="0.3"/>
+    <xacro:property name="box_y" value="0.2"/>
+    <xacro:property name="box_z" value="0.05"/>
+
+    <xacro:property name="wheel_radius" value="0.05"/>
+    <xacro:property name="wheel_length" value="0.03"/>
+   
+    <xacro:property name="caster_wheel_radius" value="0.025"/>
+
+    <xacro:property name="box_mass" value="0.5"/>
+    <xacro:property name="wheel_mass" value="0.1"/>
+    <xacro:property name="caster_wheel_mass" value="0.1"/>
+
+
+
+
+    <link name="base_link">
+    </link>
+
+    <link name="chassis">
+        <visual>
+            <origin xyz="0 0 0"/>
+            <geometry>
+                <box size="${box_x} ${box_y} ${box_z}"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0"/>
+            <geometry>
+                <box size="${box_x} ${box_y} ${box_z}"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="${box_mass}" />
+            <inertia ixx="${(1/12)*box_mass*(box_y*box_y+box_z*box_z)}" ixy="0" ixz="0" iyy="${(1/12)*box_mass*(box_x*box_x+box_z*box_z)}" iyz="0"
+            izz="${(1/12)*box_mass*(box_x*box_x+box_y*box_y)}" />
+        </inertial>
+    </link>
+
+    <gazebo reference="chassis">
+        <visual>
+            <material>
+                <ambient>1.0 1.0 1.0 1.0</ambient>
+                <diffuse>1.0 1.0 1.0 1.0</diffuse>
+                <specular>1.0 1.0 1.0 1.0</specular>
+            </material>
+        </visual>
+    </gazebo>
+
+
+    <joint name="chassis_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="chassis"/>
+        <origin xyz="0 0 ${wheel_radius+box_z/2}"/>
+    </joint>
+
+    
+
+    <link name="left_wheel">
+        <visual>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="${wheel_radius}" length="${wheel_length}" />
+            </geometry>
+            <material name='blue'/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="${wheel_radius}" length="${wheel_length}" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+            <mass value="${wheel_mass}" />
+            <inertia ixx="${(1/12)*wheel_mass*(3*wheel_radius*wheel_radius+wheel_length*wheel_length)}" ixy="0" ixz="0" iyy="${(1/12)*wheel_mass*(3*wheel_radius*wheel_radius+wheel_length*wheel_length)}" iyz="0"
+            izz="${(1/2)*wheel_mass*(wheel_radius*wheel_radius)}" />
+        </inertial>
+    </link>
+    <gazebo reference="left_wheel">
+    <visual>
+        <material>
+            <ambient>0.0 0.0 1.0 1.0</ambient>
+            <diffuse>0.0 0.0 1.0 1.0</diffuse>
+            <specular>0.0 0.0 1.0 1.0</specular>
+        </material>
+    </visual>
+    </gazebo>
+
+
+    <joint name="left_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="left_wheel"/>
+        <origin xyz="${-box_x/2+wheel_radius} ${box_y/2+wheel_length/2} ${wheel_radius}" rpy="0 0 0"/>
+        <axis xyz="0 1 0" />
+    </joint>
+
+    <link name="right_wheel">
+        <visual>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="${wheel_radius}" length="${wheel_length}" />
+            </geometry>
+            <material name='blue'/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="${wheel_radius}" length="${wheel_length}" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+            <mass value="${wheel_mass}" />
+            <inertia ixx="${(1/12)*wheel_mass*(3*wheel_radius*wheel_radius+wheel_length*wheel_length)}" ixy="0" ixz="0" iyy="${(1/12)*wheel_mass*(3*wheel_radius*wheel_radius+wheel_length*wheel_length)}" iyz="0"
+            izz="${(1/2)*wheel_mass*(wheel_radius*wheel_radius)}" />
+        </inertial>
+        
+    </link>
+    <gazebo reference="right_wheel">
+    <visual>
+        <material>
+            <ambient>0.0 0.0 1.0 1.0</ambient>
+            <diffuse>0.0 0.0 1.0 1.0</diffuse>
+            <specular>0.0 0.0 1.0 1.0</specular>
+        </material>
+    </visual>
+    </gazebo>
+
+
+
+
+
+    <joint name="right_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="right_wheel"/>
+        <origin xyz="${-box_x/2+wheel_radius} ${-box_y/2-wheel_length/2} ${wheel_radius}" rpy="0 0 0"/>
+        <axis xyz="0 1 0" />
+    </joint>
+
+    <link name="caster_wheel">
+        <visual>
+            <geometry>
+                <sphere radius="${caster_wheel_radius}" />
+            </geometry>
+            <origin xyz="0 0 ${-caster_wheel_radius}" />
+            <material name="black"/>
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="${caster_wheel_radius}" />
+            </geometry>
+            <origin xyz="0 0 ${-caster_wheel_radius}" />
+        </collision>
+        <inertial>
+            <origin xyz="0 0 ${-caster_wheel_radius}" rpy="0 0 0" />
+            <mass value="${caster_wheel_mass}" />
+            <inertia ixx="${(2/5)*caster_wheel_mass*(caster_wheel_radius*caster_wheel_radius)}" ixy="0" ixz="0" iyy="${(2/5)*caster_wheel_mass*(caster_wheel_radius*caster_wheel_radius)}" iyz="0"
+            izz="${(2/5)*caster_wheel_mass*(caster_wheel_radius*caster_wheel_radius)}" />
+        </inertial>
+    </link>
+    <gazebo reference="caster_wheel">
+        <visual>
+            <material>
+                <ambient>0.0 0.0 0.0 1.0</ambient>
+                <diffuse>0.0 0.0 0.0 1.0</diffuse>
+                <specular>0.0 0.0 0.0 1.0</specular>
+            </material>
+        </visual>
+        <mu1 value="0.001"/>
+        <mu2 value="0.001"/>
+    </gazebo>
+
+
+
+    <joint name="caster_wheel_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="caster_wheel"/>
+        <origin xyz="${box_x/2-box_x/6} 0 ${wheel_radius}" rpy="0 0 0" />
+    </joint>
+
+
+
+</robot>
