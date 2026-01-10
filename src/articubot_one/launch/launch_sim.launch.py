@@ -50,6 +50,15 @@ def generate_launch_description():
 
     # ros2 run teleop_twist_keyboard teleop_twist_keyboard
     
+    teleop_node = Node(
+        package='teleop_twist_keyboard',
+        executable='teleop_twist_keyboard',
+        name='teleop_twist_keyboard',
+        prefix='gnome-terminal --',
+        output='screen'
+    )
+    
+    
     bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
@@ -74,5 +83,6 @@ def generate_launch_description():
         gazebo,
         spawn_entity,
         bridge,
+        teleop_node
         
     ])
