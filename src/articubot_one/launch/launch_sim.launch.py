@@ -12,7 +12,7 @@ def generate_launch_description():
     package_name="articubot_one"
     set_gz_config = SetEnvironmentVariable('GZ_CONFIG_PATH', '/usr/share/gz')
     rsp=IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([os.path.join(get_package_share_directory(package_name), 'launch', "rsp.launch.py")]),
+        PythonLaunchDescriptionSource([os.path.join(get_package_share_directory(package_name), 'launch', "rviz_view.launch.py")]),
         launch_arguments={'use_sim_time':'true'}.items()
     )
     

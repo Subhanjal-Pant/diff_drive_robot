@@ -21,12 +21,13 @@ def generate_launch_description():
         output='screen',
         parameters=[params],
     )
-    robot_state_publisher_gui=Node(
-        package='joint_state_publisher_gui',
-        executable='joint_state_publisher_gui',
-        output='screen',
-        parameters=[{'use_sim_time':use_sim_time}],
-    )
+    # robot_state_publisher_gui=Node(
+    #     package='joint_state_publisher_gui',
+    #     executable='joint_state_publisher_gui',
+    #     output='screen',
+    #     parameters=[{'use_sim_time':use_sim_time}],
+    # )
+    
     rviz_node=Node(
         package='rviz2',
         executable='rviz2',
@@ -49,7 +50,7 @@ def generate_launch_description():
         ),
         
         robot_state_publisher,
-        robot_state_publisher_gui,
+        # robot_state_publisher_gui,
         rviz_node,
         bridge,
     
