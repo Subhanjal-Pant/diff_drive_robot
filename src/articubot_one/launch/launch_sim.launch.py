@@ -65,10 +65,11 @@ def generate_launch_description():
         arguments=[
             # GZ -> ROS: These topics flow FROM Gazebo TO ROS
             '/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry',
-            '/model/bot/tf@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',            '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
+            '/model/bot/tf@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
+            '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
             '/joint_states@sensor_msgs/msg/JointState[gz.msgs.Model',
             # ROS -> GZ: Movement commands flow FROM ROS TO Gazebo
-            '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist'
+            '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
         ],
         remappings=[
             ('/model/bot/tf', '/tf'),

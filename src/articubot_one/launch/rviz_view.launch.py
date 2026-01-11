@@ -27,7 +27,12 @@ def generate_launch_description():
         output='screen',
         parameters=[{'use_sim_time':use_sim_time}],
     )
-    
+    joint_state_publisher_node=Node(
+        package="joint_state_publisher",
+        executable="joint_state_publisher",
+        parameters=[{'use_sim_time':use_sim_time}],
+        
+    )
     rviz_node=Node(
         package='rviz2',
         executable='rviz2',
@@ -39,7 +44,9 @@ def generate_launch_description():
     package='ros_gz_bridge',
     executable='parameter_bridge',
     arguments=['/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry',
-               '/tf@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V'],
+               '/tf@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
+               '/joint_states@sensor_msgs/msg/JointState[gz.msgs.Model'
+               ],
     output='screen'
     )
     return LaunchDescription([
@@ -50,7 +57,8 @@ def generate_launch_description():
         ),
         
         robot_state_publisher,
-        robot_state_publisher_gui,
+        # joint_state_publisher_node,
+        # robot_state_publisher_gui,
         rviz_node,
         bridge,
     

@@ -5,7 +5,6 @@
         <plugin
             filename="gz-sim-diff-drive-system"
             name="gz::sim::systems::DiffDrive">
-            
             <left_joint>left_wheel_joint</left_joint>
             <right_joint>right_wheel_joint</right_joint>
             
@@ -22,6 +21,13 @@
             <publish_odom_tf>true</publish_odom_tf>
             <publish_wheel_tf>false</publish_wheel_tf>
             <calculate_joint_velocities>true</calculate_joint_velocities>
+        </plugin>
+        <plugin
+            filename="gz-sim-joint-state-publisher-system"
+            name="gz::sim::systems::JointStatePublisher">
+            <topic>joint_states</topic>
+            <joint_name>left_wheel_joint</joint_name>
+            <joint_name>right_wheel_joint</joint_name>
         </plugin>
     </gazebo>
 
