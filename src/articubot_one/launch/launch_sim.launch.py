@@ -11,6 +11,7 @@ import xacro
 def generate_launch_description():
     package_name="articubot_one"
     set_gz_config = SetEnvironmentVariable('GZ_CONFIG_PATH', '/usr/share/gz')
+    world_path=os.path.join(get_package_share_directory(package_name),'worlds','lidar_world.sdf')
     rsp=IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(get_package_share_directory(package_name), 'launch', "rviz_view.launch.py")]),
         launch_arguments={'use_sim_time':'true'}.items()
@@ -18,7 +19,7 @@ def generate_launch_description():
     
     gazebo=IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')]),
-        launch_arguments={'gz_args':'-r empty.sdf'}.items(),
+        launch_arguments={'gz_args':['-r ', world_path]}.items(),
     )
     
     spawn_entity=Node(

@@ -49,6 +49,9 @@
                 <resolution>0.01</resolution>
             </range>
         </lidar>
+        <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+            <render_engine>ogre2</render_engine>
+        </plugin>
     </sensor>
 </gazebo>
 
