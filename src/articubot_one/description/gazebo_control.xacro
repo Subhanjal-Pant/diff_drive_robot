@@ -13,7 +13,7 @@
 
             <max_linear_acceleration>10.0</max_linear_acceleration>
             
-            <topic>cmd_vel</topic>
+            <topic>cmd_vel_raw</topic>
             <odom_topic>odom</odom_topic>
             <frame_id>odom</frame_id>
             <child_frame_id>base_link</child_frame_id>
