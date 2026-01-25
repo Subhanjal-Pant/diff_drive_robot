@@ -10,6 +10,9 @@ import xacro
 
 def generate_launch_description():
     package_name="articubot_one"
+    # Setting the render engine to ogre1 because ogre2 is not supported by my computer hardware
+    # Could be changed to orge2 or ogre1 depending upon the hardware
+    set_render_engine=SetEnvironmentVariable('GZ_RENDERING_ENGINE_GUESS', 'ogre')
     set_gz_config = SetEnvironmentVariable('GZ_CONFIG_PATH', '/usr/share/gz')
     world_path=os.path.join(get_package_share_directory(package_name),'worlds','lidar_world.sdf')
     rsp=IncludeLaunchDescription(
@@ -19,7 +22,11 @@ def generate_launch_description():
     
     gazebo=IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')]),
-        launch_arguments={'gz_args':['-r ', world_path]}.items(),
+        launch_arguments={
+            'gz_args': f'-r {world_path} --render-engine ogre',
+            'on_exit_shutdown':'true',
+            'use_sim_time':'true'
+            }.items(),
     )
     
     spawn_entity=Node(
@@ -72,6 +79,7 @@ def generate_launch_description():
             # ROS -> GZ: Movement commands flow FROM ROS TO Gazebo
             '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
             '/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
+            '/camera/image_raw@sensor_msgs/msg/Image[gz.msgs.Image',
         ],
         remappings=[
             ('/model/bot/tf', '/tf'),
@@ -81,11 +89,11 @@ def generate_launch_description():
     
     
     return LaunchDescription([
+        set_render_engine,
         set_gz_config,
         rsp,
         gazebo,
         spawn_entity,
         bridge,
-        teleop_node
-        
+        teleop_node,
     ])

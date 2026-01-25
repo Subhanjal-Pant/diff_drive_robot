@@ -16,6 +16,12 @@
     <material name="black">
         <color rgba="0 0 0 1" />
     </material>
+    
+    
+    <material name="pink">
+        <color rgba="0.7 0.09 0.5 1" />
+    </material>
+    
 
     <xacro:property name="box_x" value="0.3"/>
     <xacro:property name="box_y" value="0.2"/>
