@@ -12,7 +12,7 @@ def generate_launch_description():
     package_name="articubot_one"
     # Setting the render engine to ogre1 because ogre2 is not supported by my computer hardware
     # Could be changed to orge2 or ogre1 depending upon the hardware
-    set_render_engine=SetEnvironmentVariable('GZ_RENDERING_ENGINE_GUESS', 'ogre')
+    # set_render_engine=SetEnvironmentVariable('GZ_RENDERING_ENGINE_GUESS', 'ogre')
     set_gz_config = SetEnvironmentVariable('GZ_CONFIG_PATH', '/usr/share/gz')
     world_path=os.path.join(get_package_share_directory(package_name),'worlds','lidar_world.sdf')
     rsp=IncludeLaunchDescription(
@@ -23,16 +23,17 @@ def generate_launch_description():
     gazebo=IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')]),
         launch_arguments={
-            'gz_args': f'-r {world_path} --render-engine ogre',
-            'on_exit_shutdown':'true',
-            'use_sim_time':'true'
+            # 'gz_args': f'-r {world_path} --render-engine ogre',
+            # 'on_exit_shutdown':'true',
+            'gz_args': f'-r {world_path}',
+            'use_sim_time':'true',
             }.items(),
     )
     
     spawn_entity=Node(
         package='ros_gz_sim', 
         executable='create', 
-        arguments=['-topic', 'robot_description','-name', 'bot'],output='screen'
+        arguments=['-topic', 'robot_description','-name', 'bot', '-x', '0', '-y', '0', '-z', '0.1'],output='screen'
     )
     
     # bridge_node=Node(
@@ -89,7 +90,7 @@ def generate_launch_description():
     
     
     return LaunchDescription([
-        set_render_engine,
+        # set_render_engine,
         set_gz_config,
         rsp,
         gazebo,
