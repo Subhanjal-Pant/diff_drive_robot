@@ -55,11 +55,11 @@ def generate_launch_description():
             default_value='false',
             description="Use sim time if true"
         ),
-        
+        # Made a change
         robot_state_publisher,
-        joint_state_publisher_node,
+        # joint_state_publisher_node,
         # robot_state_publisher_gui,
         rviz_node,
-        bridge,
+        # bridge,
     
     ])
