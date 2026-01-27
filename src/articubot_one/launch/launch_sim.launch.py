@@ -81,6 +81,8 @@ def generate_launch_description():
             '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
             '/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
             '/camera/image_raw@sensor_msgs/msg/Image[gz.msgs.Image',
+            # '/camera/image_raw@/camera/image_raw[gz.msgs.Image',
+
         ],
         remappings=[
             ('/model/bot/tf', '/tf'),
