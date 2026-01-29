@@ -91,6 +91,18 @@ def generate_launch_description():
         output='screen'
     )
     
+    republisher_node=Node(
+        package='image_transport',
+        executable='republish',
+        arguments=['raw', 'compressed'],
+        remappings=[
+            ('in','/camera/image_raw'),
+            ('out/compressed','/camera/image_compressed'),
+            ],
+        output='screen' 
+    )
+
+
     
     return LaunchDescription([
         # set_render_engine,
@@ -100,4 +112,5 @@ def generate_launch_description():
         spawn_entity,
         bridge,
         teleop_node,
+        republisher_node
     ])
