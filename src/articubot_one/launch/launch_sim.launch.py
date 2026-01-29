@@ -101,6 +101,22 @@ def generate_launch_description():
             ],
         output='screen' 
     )
+    republisher_node_to_raw=Node(
+        package='image_transport',
+        executable='republish',
+        # arguments=['compressed', 'raw'],
+        parameters=[{
+        'in_transport': 'compressed',
+        'out_transport': 'raw',
+        'qos_overrides./camera/image_compressed.publisher.reliability': 'best_effort',
+        }],
+
+        remappings=[
+            ('in/compressed','/camera/image_compressed'),
+            ('out','/camera/image_raw_from_compressed'),
+            ],
+        output='screen' 
+    )
 
 
     
@@ -112,5 +128,6 @@ def generate_launch_description():
         spawn_entity,
         bridge,
         teleop_node,
-        republisher_node
+        republisher_node,
+        republisher_node_to_raw,
     ])
