@@ -81,8 +81,10 @@ def generate_launch_description():
             '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
             '/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
             '/camera/image_raw@sensor_msgs/msg/Image[gz.msgs.Image',
+            # '/depth_camera/image_raw@sensor_msgs/msg/Image[gz.msgs.Image',
             # '/camera/image_raw@/camera/image_raw[gz.msgs.Image',
             '/camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo', 
+            '/camera/image_raw/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
 
         ],
         remappings=[
