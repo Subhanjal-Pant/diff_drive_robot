@@ -28,6 +28,8 @@ diff_cont:
     right_wheel_radius_multiplier: 1.0
 
     use_stamped_vel: false
+    enable_stamped_cmd_vel: false
+    enable_odom_tf: true
 
     # odom_frame_id: odom
     # base_frame_id: base_link
@@ -36,7 +38,6 @@ diff_cont:
 
     # position_feedback: false
     # open_loop: true
-    # enable_odom_tf: true
 
     # cmd_vel_timeout: 0.5 # seconds
     # publish_limited_velocity: true

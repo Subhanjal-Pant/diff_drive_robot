@@ -36,6 +36,22 @@ def generate_launch_description():
         arguments=['-topic', 'robot_description','-name', 'bot', '-x', '0', '-y', '0', '-z', '0.1'],output='screen'
     )
     
+    joint_state_broadcaster_spawner=Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['joint_broad']
+    )
+    
+    diff_drive_spawner = Node(
+    package='controller_manager',
+    executable='spawner',
+    arguments=[
+        'diff_cont',
+        '--param-file', os.path.join(get_package_share_directory(package_name), 'config', 'my_controllers.yaml'),
+        '--ros-args', 
+        '-r', '/diff_cont/cmd_vel:=/cmd_vel'
+    ],
+)
     # bridge_node=Node(
     #     package='ros_gz_bridge',
     #     executable='parameter_bridge',
@@ -58,6 +74,16 @@ def generate_launch_description():
 
 
     # ros2 run teleop_twist_keyboard teleop_twist_keyboard
+    twist_stamper = Node(
+        package='twist_stamper',
+        executable='twist_stamper',
+        parameters=[{'use_sim_time': True}],
+        remappings=[
+            ('/cmd_vel_in', '/cmd_vel'),
+            ('/cmd_vel_out', '/diff_cont/cmd_vel')
+        ]
+    )
+    
     
     teleop_node = Node(
         package='teleop_twist_keyboard',
@@ -74,11 +100,11 @@ def generate_launch_description():
         arguments=[
             # GZ -> ROS: These topics flow FROM Gazebo TO ROS
             '/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry',
-            '/model/bot/tf@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
+            # '/model/bot/tf@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
             '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
-            '/joint_states@sensor_msgs/msg/JointState[gz.msgs.Model',
+            # '/joint_states@sensor_msgs/msg/JointState[gz.msgs.Model',
             # ROS -> GZ: Movement commands flow FROM ROS TO Gazebo
-            '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
+            # '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
             '/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
             '/camera/image_raw@sensor_msgs/msg/Image[gz.msgs.Image',
             # '/depth_camera/image_raw@sensor_msgs/msg/Image[gz.msgs.Image',
@@ -129,7 +155,10 @@ def generate_launch_description():
         gazebo,
         spawn_entity,
         bridge,
-        teleop_node,
+        # teleop_node,
         republisher_node,
         republisher_node_to_raw,
+        joint_state_broadcaster_spawner,
+        diff_drive_spawner,
+        twist_stamper,
     ])
