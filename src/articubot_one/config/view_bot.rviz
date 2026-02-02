@@ -5,8 +5,6 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /LaserScan1
-        - /LaserScan1/Status1
         - /LaserScan1/Topic1
       Splitter Ratio: 0.5
     Tree Height: 764
@@ -144,20 +142,21 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        odom:
-          base_link:
-            caster_wheel:
-              {}
-            chassis:
-              camera_link:
-                camera_link_optical:
-                  {}
-              laser_frame:
+        base_link:
+          caster_wheel:
+            {}
+          chassis:
+            camera_link:
+              camera_link_optical:
                 {}
-            left_wheel:
+            laser_frame:
               {}
-            right_wheel:
-              {}
+          left_wheel:
+            {}
+          right_wheel:
+            {}
+        odom:
+          {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -185,7 +184,7 @@ Visualization Manager:
       Size (m): 0.05000000074505806
       Style: Flat Squares
       Topic:
-        Depth: 50
+        Depth: 1
         Durability Policy: Volatile
         Filter size: 10
         History Policy: Keep Last
@@ -290,10 +289,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.8097962737083435
+      Pitch: 0.7997962832450867
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.0653986930847168
+      Yaw: 1.05539870262146
     Saved: ~
 Window Geometry:
   Camera:
@@ -315,5 +314,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1854
-  X: 231
-  Y: 90
+  X: 706
+  Y: 81

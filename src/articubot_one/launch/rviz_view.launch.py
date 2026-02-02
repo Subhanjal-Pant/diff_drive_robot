@@ -26,18 +26,7 @@ def generate_launch_description():
             'use_sim_time': use_sim_time
         }]
     )
-    robot_state_publisher_gui=Node(
-        package='joint_state_publisher_gui',
-        executable='joint_state_publisher_gui',
-        output='screen',
-        parameters=[{'use_sim_time':True}],
-    )
-    joint_state_publisher_node=Node(
-        package="joint_state_publisher",
-        executable="joint_state_publisher",
-        parameters=[{'use_sim_time':use_sim_time}],
-        
-    )
+
     rviz_node=Node(
         package='rviz2',
         executable='rviz2',
@@ -45,26 +34,15 @@ def generate_launch_description():
         arguments=['-d', rviz_config_path],
         parameters=[{'use_sim_time':True}],
     )
-    bridge = Node(
-        package='ros_gz_bridge',
-        executable='parameter_bridge',
-        arguments=['/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry',
-                '/tf@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
-                '/joint_states@sensor_msgs/msg/JointState[gz.msgs.Model'
-                ],
-        output='screen'
-    )
+ 
     return LaunchDescription([
         DeclareLaunchArgument(
             'use_sim_time',
             default_value='true',
             description="Use sim time if true"
         ),
-        # Made a change
         robot_state_publisher,
-        # joint_state_publisher_node,
-        # robot_state_publisher_gui,
         rviz_node,
-        # bridge,
+   
     
     ])
