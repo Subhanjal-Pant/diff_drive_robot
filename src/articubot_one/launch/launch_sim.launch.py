@@ -115,6 +115,7 @@ def generate_launch_description():
             '/camera/image_raw/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
 
         ],
+        parameters=[{'use_sim_time': True}],
         remappings=[
             ('/model/bot/tf', '/tf'),
         ],
