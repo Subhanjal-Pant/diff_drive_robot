@@ -81,7 +81,9 @@ def generate_launch_description():
         remappings=[
             ('/cmd_vel_in', '/cmd_vel'),
             ('/cmd_vel_out', '/diff_cont/cmd_vel')
-        ]
+        ],  # <--- Added missing comma here
+        # prefix='gnome-terminal --',
+        output='screen'
     )
     
     
@@ -155,7 +157,7 @@ def generate_launch_description():
         gazebo,
         spawn_entity,
         bridge,
-        # teleop_node,
+        teleop_node,
         republisher_node,
         republisher_node_to_raw,
         joint_state_broadcaster_spawner,
