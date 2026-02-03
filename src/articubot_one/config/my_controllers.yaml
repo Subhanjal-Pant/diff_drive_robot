@@ -18,7 +18,7 @@ diff_cont:
 
 
     cmd_vel_timeout: 3.0
-    publish_rate: 100.0
+    publish_rate: 500.0
 
     transform_tolerance: 0.01
 

@@ -7,6 +7,10 @@ from launch.actions import IncludeLaunchDescription, SetEnvironmentVariable
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 import xacro
+from launch.actions import RegisterEventHandler
+from launch.event_handlers import OnProcessExit
+
+
 
 def generate_launch_description():
     
@@ -132,6 +136,19 @@ def generate_launch_description():
         output='screen' 
     )
 
+    delay_joint_broadcaster_after_spawn = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=spawn_entity,
+            on_exit=[joint_state_broadcaster_spawner],
+        )
+    )
+
+    delay_diff_drive_spawner_after_broadcaster = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=joint_state_broadcaster_spawner,
+            on_exit=[diff_drive_spawner],
+        )
+    )
 
     
     return LaunchDescription([
@@ -142,9 +159,11 @@ def generate_launch_description():
         spawn_entity,
         bridge,
         teleop_node,
-        republisher_node,
-        republisher_node_to_raw,
-        joint_state_broadcaster_spawner,
-        diff_drive_spawner,
+        # republisher_node,
+        # republisher_node_to_raw,
+        # joint_state_broadcaster_spawner,
+        # diff_drive_spawner,
+        delay_joint_broadcaster_after_spawn,
+        delay_diff_drive_spawner_after_broadcaster,
         twist_stamper,
     ])
