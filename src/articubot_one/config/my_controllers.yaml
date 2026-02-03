@@ -1,6 +1,6 @@
 controller_manager:
   ros__parameters:
-    update_rate: 1000
+    update_rate: 100
     use_sim_time: true
     
     diff_cont:
@@ -12,12 +12,15 @@ controller_manager:
 
 diff_cont:
   ros__parameters:
+    use_sim_time: true
     left_wheel_names: ["left_wheel_joint"]
     right_wheel_names: ["right_wheel_joint"]
 
 
     cmd_vel_timeout: 100.0
     publish_rate: 100.0
+
+    transform_tolerance: 0.01
 
     wheel_separation: 0.23
     wheel_radius: 0.05
