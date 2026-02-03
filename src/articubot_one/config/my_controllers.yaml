@@ -1,6 +1,6 @@
 controller_manager:
   ros__parameters:
-    update_rate: 100
+    update_rate: 1000
     use_sim_time: true
     
     diff_cont:
@@ -17,7 +17,7 @@ diff_cont:
 
 
     cmd_vel_timeout: 1.0
-    publish_rate: 50.0
+    publish_rate: 100.0
 
     wheel_separation: 0.23
     wheel_radius: 0.05
@@ -26,8 +26,8 @@ diff_cont:
     left_wheel_radius_multiplier: 1.0
     right_wheel_radius_multiplier: 1.0
 
-    use_stamped_vel: false
-    enable_stamped_cmd_vel: false
+    # use_stamped_vel: false
+    # enable_stamped_cmd_vel: false
     enable_odom_tf: true
     odom_frame_id: "odom"
     base_frame_id: "base_link"
