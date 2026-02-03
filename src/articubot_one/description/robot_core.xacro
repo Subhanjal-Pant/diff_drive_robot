@@ -30,11 +30,11 @@
     <xacro:property name="wheel_radius" value="0.05"/>
     <xacro:property name="wheel_length" value="0.03"/>
    
-    <xacro:property name="caster_wheel_radius" value="0.025"/>
+    <xacro:property name="caster_wheel_radius" value="0.02"/>
 
     <xacro:property name="box_mass" value="0.5"/>
     <xacro:property name="wheel_mass" value="0.1"/>
-    <xacro:property name="caster_wheel_mass" value="0.1"/>
+    <xacro:property name="caster_wheel_mass" value="1"/>
 
     <xacro:property name="lidar_radius" value="0.03"/>
     <xacro:property name="lidar_length" value="0.03"/>
@@ -188,7 +188,7 @@
             izz="${(2/5)*caster_wheel_mass*(caster_wheel_radius*caster_wheel_radius)}" />
         </inertial>
     </link>
-    <gazebo reference="caster_wheel">
+    <!-- <gazebo reference="caster_wheel">
         <visual>
             <material>
                 <ambient>0.0 0.0 0.0 1.0</ambient>
@@ -198,8 +198,19 @@
         </visual>
         <mu1 value="0.001"/>
         <mu2 value="0.001"/>
+    </gazebo> -->
+    <gazebo reference="caster_wheel">
+        <mu1 value="0.001"/>
+        <mu2 value="0.001"/>
+        <surface>
+        <friction>
+            <ode>
+            <mu>0.001</mu>
+            <mu2>0.001</mu2>
+            </ode>
+        </friction>
+        </surface>
     </gazebo>
-
 
 
     <joint name="caster_wheel_joint" type="fixed">

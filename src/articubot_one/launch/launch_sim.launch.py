@@ -16,6 +16,9 @@ def generate_launch_description():
     
     world_path=os.path.join(get_package_share_directory(package_name),'worlds','lidar_world.sdf')
     
+    gazebo_params_file = os.path.join(get_package_share_directory(package_name), 'config', 'gazebo_params.yaml')
+    
+    
     rsp=IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(get_package_share_directory(package_name), 'launch', "rviz_view.launch.py")]),
         launch_arguments={'use_sim_time':'true'}.items()
@@ -26,6 +29,7 @@ def generate_launch_description():
         launch_arguments={
             'gz_args': f'-r {world_path}',
             'use_sim_time':'true',
+            'extra_gazebo_args': '--ros-args --params'+ gazebo_params_file
             }.items(),
     )
     
@@ -56,7 +60,10 @@ def generate_launch_description():
     twist_stamper = Node(
         package='twist_stamper',
         executable='twist_stamper',
-        parameters=[{'use_sim_time': True}],
+        parameters=[{
+            'use_sim_time': True,
+            'frame_id': 'base_link',
+            }],
         remappings=[
             ('/cmd_vel_in', '/cmd_vel'),
             ('/cmd_vel_out', '/diff_cont/cmd_vel')
