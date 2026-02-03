@@ -150,6 +150,13 @@ def generate_launch_description():
         )
     )
 
+    # delay_rviz_after_diff_drive=RegisterEventHandler(
+    #     event_handler=OnProcessExit(
+    #         target_action=diff_drive_spawner,
+    #         on_exit=[rsp],
+    #     )
+    # )
+    
     
     return LaunchDescription([
         # set_render_engine,
@@ -165,5 +172,6 @@ def generate_launch_description():
         # diff_drive_spawner,
         delay_joint_broadcaster_after_spawn,
         delay_diff_drive_spawner_after_broadcaster,
+        # delay_rviz_after_diff_drive,
         twist_stamper,
     ])
