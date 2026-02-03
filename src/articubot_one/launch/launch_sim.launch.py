@@ -29,7 +29,7 @@ def generate_launch_description():
         launch_arguments={
             'gz_args': f'-r {world_path}',
             'use_sim_time':'true',
-            'extra_gazebo_args': '--ros-args --params'+ gazebo_params_file
+            'extra_gazebo_args': '--ros-args --params '+ gazebo_params_file
             }.items(),
     )
     

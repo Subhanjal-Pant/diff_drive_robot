@@ -16,7 +16,7 @@ diff_cont:
     right_wheel_names: ["right_wheel_joint"]
 
 
-    cmd_vel_timeout: 1.0
+    cmd_vel_timeout: 100.0
     publish_rate: 100.0
 
     wheel_separation: 0.23
