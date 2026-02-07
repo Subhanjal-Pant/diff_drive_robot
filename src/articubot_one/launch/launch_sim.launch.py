@@ -82,8 +82,8 @@ def generate_launch_description():
         name='teleop_twist_keyboard',
         prefix='gnome-terminal --',
         parameters=[{
-            'speed': 1.0,
-            'turn': 0.75,
+            'speed': 0.5,
+            'turn': 0.25,
         }],
         output='screen'
     )
