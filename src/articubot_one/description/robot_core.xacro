@@ -120,7 +120,7 @@
     <joint name="left_wheel_joint" type="continuous">
         <parent link="base_link"/>
         <child link="left_wheel"/>
-        <origin xyz="${-box_x/2+wheel_radius} ${box_y/2+wheel_length/2} ${wheel_radius}" rpy="0 0 0"/>
+        <origin xyz="${-box_x/2+wheel_radius} ${box_y/2+wheel_length/2+0.01} ${wheel_radius}" rpy="0 0 0"/>
         <axis xyz="0 1 0" />
     </joint>
 
@@ -163,14 +163,14 @@
     <joint name="right_wheel_joint" type="continuous">
         <parent link="base_link"/>
         <child link="right_wheel"/>
-        <origin xyz="${-box_x/2+wheel_radius} ${-box_y/2-wheel_length/2} ${wheel_radius}" rpy="0 0 0"/>
+        <origin xyz="${-box_x/2+wheel_radius} ${-box_y/2-wheel_length/2-0.01} ${wheel_radius}" rpy="0 0 0"/>
         <axis xyz="0 1 0" />
     </joint>
 
     <link name="caster_wheel">
         <visual>
             <geometry>
-                <sphere radius="${caster_wheel_radius}" />
+                <sphere radius="${caster_wheel_radius-0.001}" />
             </geometry>
             <origin xyz="0 0 ${-caster_wheel_radius}" />
             <material name="black"/>

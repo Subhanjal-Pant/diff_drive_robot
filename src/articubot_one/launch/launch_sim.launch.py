@@ -15,7 +15,7 @@ from launch.event_handlers import OnProcessExit
 def generate_launch_description():
     
     package_name="articubot_one"
-    
+    use_sim_time=LaunchConfiguration('use_sim_time')
     set_gz_config = SetEnvironmentVariable('GZ_CONFIG_PATH', '/usr/share/gz')
     
     world_path=os.path.join(get_package_share_directory(package_name),'worlds','lidar_world.sdf')
@@ -25,14 +25,14 @@ def generate_launch_description():
     
     rsp=IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(get_package_share_directory(package_name), 'launch', "rviz_view.launch.py")]),
-        launch_arguments={'use_sim_time':'true', 'use_ros2_control':'true'}.items()
+        launch_arguments={'use_sim_time': use_sim_time, 'use_ros2_control':'true'}.items()
     )
     
     gazebo=IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')]),
         launch_arguments={
             'gz_args': f'-r {world_path}',
-            'use_sim_time':'true',
+            'use_sim_time':use_sim_time,
             'extra_gazebo_args': '--ros-args --params '+ gazebo_params_file
             }.items(),
     )
@@ -65,7 +65,7 @@ def generate_launch_description():
         package='twist_stamper',
         executable='twist_stamper',
         parameters=[{
-            'use_sim_time': True,
+            'use_sim_time': use_sim_time,
             'frame_id': 'base_link',
             }],
         remappings=[
@@ -102,7 +102,7 @@ def generate_launch_description():
             '/camera/image_raw/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
 
         ],
-        parameters=[{'use_sim_time': True}],
+        parameters=[{'use_sim_time': use_sim_time}],
         remappings=[
             ('/model/bot/tf', '/tf'),
         ],

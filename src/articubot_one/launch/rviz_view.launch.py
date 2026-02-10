@@ -1,23 +1,26 @@
 import os
-
-# from sympy import true
 from ament_index_python.packages import get_package_share_directory
 from launch.substitutions import LaunchConfiguration, Command
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch_ros.actions import Node
 import xacro
+from launch_ros.actions import SetParameter
+
 
 def generate_launch_description():
     pkg_path=get_package_share_directory('articubot_one')
-    
+
     use_sim_time=LaunchConfiguration('use_sim_time')
     use_ros2_control=LaunchConfiguration('use_ros2_control')
-    
+    SetParameter(name='use_sim_time', value=use_sim_time)
+
     xacro_file=os.path.join(pkg_path, 'description', 'robot.urdf.xacro')
     # robot_description_config= xacro.process_file(xacro_file)
     robot_description_config=Command(['xacro ', xacro_file, ' use_ros2_control:=', use_ros2_control])
     rviz_config_path=os.path.join(pkg_path, 'config', 'view_bot.rviz')
+
+   
     
     params={'robot_description': robot_description_config, 'use_sim_time':use_sim_time}
     
@@ -36,8 +39,10 @@ def generate_launch_description():
         executable='rviz2',
         output='screen',
         arguments=['-d', rviz_config_path],
-        parameters=[{'use_sim_time':True}],
+        parameters=[{'use_sim_time': use_sim_time}],
     )
+ 
+
  
     return LaunchDescription([
         DeclareLaunchArgument(
