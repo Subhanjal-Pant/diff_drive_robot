@@ -3,6 +3,7 @@
     
 
     <xacro:arg name="use_ros2_control" default="true"/>
+    <xacro:arg name="sim_mode" default="true"/>
 
     <xacro:if value="$(arg use_ros2_control)">
         <xacro:include filename="ros2_control.xacro"/>

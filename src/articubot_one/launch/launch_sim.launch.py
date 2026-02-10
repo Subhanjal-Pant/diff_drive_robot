@@ -46,19 +46,9 @@ def generate_launch_description():
     joint_state_broadcaster_spawner=Node(
         package='controller_manager',
         executable='spawner',
-        arguments=['joint_broad']
+        arguments=['joint_broad', '--controller-manager-timeout', '60']
     )
-    
-    diff_drive_spawner = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=[
-            'diff_cont',
-            '--param-file', os.path.join(get_package_share_directory(package_name), 'config', 'my_controllers.yaml'),
-            '--ros-args', 
-            '-r', '/diff_cont/cmd_vel:=/cmd_vel'
-            ],
-    )
+  
 
     # ros2 run teleop_twist_keyboard teleop_twist_keyboard
     twist_stamper = Node(
@@ -135,6 +125,21 @@ def generate_launch_description():
             ],
         output='screen' 
     )
+
+      
+    diff_drive_spawner = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=[
+            'diff_cont',
+            '--controller-manager-timeout', '60',
+            '--param-file', os.path.join(get_package_share_directory(package_name), 'config', 'my_controllers.yaml'),
+            '--ros-args', 
+            '-r', '/diff_cont/cmd_vel:=/cmd_vel'
+            ],
+    )
+
+
 
     delay_joint_broadcaster_after_spawn = RegisterEventHandler(
         event_handler=OnProcessExit(
