@@ -18,7 +18,7 @@ def generate_launch_description():
     use_sim_time=LaunchConfiguration('use_sim_time')
     set_gz_config = SetEnvironmentVariable('GZ_CONFIG_PATH', '/usr/share/gz')
     
-    world_path=os.path.join(get_package_share_directory(package_name),'worlds','lidar_world.sdf')
+    world_path=os.path.join(get_package_share_directory(package_name),'worlds','final_world.sdf')
     
     gazebo_params_file = os.path.join(get_package_share_directory(package_name), 'config', 'gazebo_params.yaml')
     
