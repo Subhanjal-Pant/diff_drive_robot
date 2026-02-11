@@ -18,7 +18,8 @@ def generate_launch_description():
     xacro_file=os.path.join(pkg_path, 'description', 'robot.urdf.xacro')
     # robot_description_config= xacro.process_file(xacro_file)
     robot_description_config=Command(['xacro ', xacro_file, ' use_ros2_control:=', use_ros2_control, ' sim_mode:=', use_sim_time])
-    rviz_config_path=os.path.join(pkg_path, 'config', 'view_bot.rviz')
+    # rviz_config_path=os.path.join(pkg_path, 'config', 'view_bot.rviz')
+    rviz_config_path=os.path.join(pkg_path, 'config', 'saved_configurations.rviz')
 
    
     
