@@ -17,8 +17,11 @@ def generate_launch_description():
     package_name="articubot_one"
     use_sim_time=LaunchConfiguration('use_sim_time')
     set_gz_config = SetEnvironmentVariable('GZ_CONFIG_PATH', '/usr/share/gz')
+    package_path=get_package_share_directory(package_name)
     
-    world_path=os.path.join(get_package_share_directory(package_name),'worlds','final_world.sdf')
+    world_path=os.path.join(package_path,'worlds','final_world.sdf')
+    
+    slam_param_file=os.path.join(package_name,'src', 'articubot_one', 'config', 'mapper_params_online_async.yaml')
     
     gazebo_params_file = os.path.join(get_package_share_directory(package_name), 'config', 'gazebo_params.yaml')
     
@@ -155,13 +158,16 @@ def generate_launch_description():
         )
     )
 
-    # delay_rviz_after_diff_drive=RegisterEventHandler(
-    #     event_handler=OnProcessExit(
-    #         target_action=diff_drive_spawner,
-    #         on_exit=[rsp],
-    #     )
-    # )
-    
+    slam_toolbox_node=IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            os.path.join(get_package_share_directory('slam_toolbox'), 'launch', 'online_async_launch.py')
+        ]),
+        launch_arguments={
+            'params_file' : slam_param_file,
+            'use_sim_time': use_sim_time
+            
+            }.items(),
+    )
     
     return LaunchDescription([
         # set_render_engine,
@@ -179,4 +185,5 @@ def generate_launch_description():
         delay_diff_drive_spawner_after_broadcaster,
         # delay_rviz_after_diff_drive,
         twist_stamper,
+        slam_toolbox_node,
     ])

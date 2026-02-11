@@ -44,6 +44,17 @@
     <link name="base_link">
     </link>
 
+    <link name="base_footprint">
+    </link>
+
+    <joint name="base_footprint_joint" type="fixed">
+        <parent link="base_link" />
+        <child link="base_footprint" />
+        <origin xyz="0 0 0" rpy="0 0 0" /> 
+
+    </joint>
+
+
     <link name="chassis">
         <visual>
             <origin xyz="0 0 0"/>
