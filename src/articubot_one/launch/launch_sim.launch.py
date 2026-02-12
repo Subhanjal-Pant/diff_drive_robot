@@ -76,7 +76,7 @@ def generate_launch_description():
         prefix='gnome-terminal --',
         parameters=[{
             'speed': 0.5,
-            'turn': 0.25,
+            'turn': 0.5,
         }],
         output='screen'
     )
@@ -175,6 +175,7 @@ def generate_launch_description():
     # ros2 run nav2_util lifecycle_bringup map_server
     # ros2 run nav2_amcl amcl --ros-args -p use_sim_time:=true
     # ros2 run nav2_util lifecycle_bringup amcl
+    # ros2 run twist_mux twist_mux --ros-args --params-file ./src/articubot_one/config/twist_mux.yaml -r cmd_vel_out:=diff_cont/cmd_vel
     return LaunchDescription([
         # set_render_engine,
         set_gz_config,
