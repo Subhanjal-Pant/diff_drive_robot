@@ -21,9 +21,9 @@ def generate_launch_description():
     
     world_path=os.path.join(package_path,'worlds','final_world.sdf')
     
-    slam_param_file=os.path.join(package_name,'src', 'articubot_one', 'config', 'mapper_params_online_async.yaml')
-    
-    gazebo_params_file = os.path.join(get_package_share_directory(package_name), 'config', 'gazebo_params.yaml')
+    slam_param_file=os.path.join(package_path, 'config', 'mapper_params_online_async.yaml')
+    print(slam_param_file)
+    gazebo_params_file = os.path.join(package_path, 'config', 'gazebo_params.yaml')
     
     
     rsp=IncludeLaunchDescription(
@@ -154,10 +154,11 @@ def generate_launch_description():
     delay_diff_drive_spawner_after_broadcaster = RegisterEventHandler(
         event_handler=OnProcessExit(
             target_action=joint_state_broadcaster_spawner,
-            on_exit=[diff_drive_spawner],
+            on_exit=[
+                diff_drive_spawner],
         )
     )
-
+# subhanjal-pant@subhanjal-pant-Legion-5-15IRX10:~/Desktop/ROS/diff_drive_robot$ ros2 launch slam_toolbox online_async_launch.py params_file:=.src/articubot_one/config/mapper_params_online_async.yaml use_sim_time:=true
     slam_toolbox_node=IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             os.path.join(get_package_share_directory('slam_toolbox'), 'launch', 'online_async_launch.py')
@@ -169,6 +170,11 @@ def generate_launch_description():
             }.items(),
     )
     
+    
+    # ros2 run nav2_map_server map_server --ros-args -p yaml_filename:=map_save.yaml -p use_sim_time:=true
+    # ros2 run nav2_util lifecycle_bringup map_server
+    # ros2 run nav2_amcl amcl --ros-args -p use_sim_time:=true
+    # ros2 run nav2_util lifecycle_bringup amcl
     return LaunchDescription([
         # set_render_engine,
         set_gz_config,
