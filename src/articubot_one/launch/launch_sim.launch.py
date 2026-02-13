@@ -17,17 +17,18 @@ def generate_launch_description():
     package_name="articubot_one"
     use_sim_time=LaunchConfiguration('use_sim_time')
     set_gz_config = SetEnvironmentVariable('GZ_CONFIG_PATH', '/usr/share/gz')
-    package_path=get_package_share_directory(package_name)
     
+    package_path=get_package_share_directory(package_name)
     world_path=os.path.join(package_path,'worlds','final_world.sdf')
     
     slam_param_file=os.path.join(package_path, 'config', 'mapper_params_online_async.yaml')
-    print(slam_param_file)
+    nav2_params_file=os.path.join(package_path, 'config', 'nav2_params.yaml')
+    twist_mux_param_file=os.path.join(package_path,'config','twist_mux.yaml')
     gazebo_params_file = os.path.join(package_path, 'config', 'gazebo_params.yaml')
     
     
     rsp=IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([os.path.join(get_package_share_directory(package_name), 'launch', "rviz_view.launch.py")]),
+        PythonLaunchDescriptionSource([os.path.join(package_path, 'launch', "rviz_view.launch.py")]),
         launch_arguments={'use_sim_time': use_sim_time, 'use_ros2_control':'true'}.items()
     )
     
@@ -43,7 +44,7 @@ def generate_launch_description():
     spawn_entity=Node(
         package='ros_gz_sim', 
         executable='create', 
-        arguments=['-topic', 'robot_description','-name', 'bot', '-x', '0', '-y', '0', '-z', '0.1'],output='screen'
+        arguments=['-topic', 'robot_description','-name', 'bot', '-x', '0', '-y', '0', '-z', '0.1'],output='screen',
     )
     
     joint_state_broadcaster_spawner=Node(
@@ -52,6 +53,31 @@ def generate_launch_description():
         arguments=['joint_broad', '--controller-manager-timeout', '60']
     )
   
+  
+    teleop_node = Node(
+        package='teleop_twist_keyboard',
+        executable='teleop_twist_keyboard',
+        name='teleop_twist_keyboard',
+        prefix='gnome-terminal --',
+        parameters=[{
+            'speed': 0.5,
+            'turn': 0.5,
+        }],
+        remappings=[
+            ('/cmd_vel', '/cmd_vel_teleop'),
+        ],
+        output='screen'
+    )
+
+    twist_mux_node = Node(
+        package='twist_mux',
+        executable='twist_mux',
+        name='twist_mux',
+        parameters=[twist_mux_param_file, {'use_sim_time': use_sim_time}],
+        remappings=[
+            ('/cmd_vel_out', '/cmd_vel_mux')
+        ]
+    )
 
     # ros2 run teleop_twist_keyboard teleop_twist_keyboard
     twist_stamper = Node(
@@ -62,22 +88,9 @@ def generate_launch_description():
             'frame_id': 'base_link',
             }],
         remappings=[
-            ('/cmd_vel_in', '/cmd_vel'),
+            ('/cmd_vel_in', '/cmd_vel_mux'),
             ('/cmd_vel_out', '/diff_cont/cmd_vel')
         ], 
-        output='screen'
-    )
-    
-    
-    teleop_node = Node(
-        package='teleop_twist_keyboard',
-        executable='teleop_twist_keyboard',
-        name='teleop_twist_keyboard',
-        prefix='gnome-terminal --',
-        parameters=[{
-            'speed': 0.5,
-            'turn': 0.5,
-        }],
         output='screen'
     )
     
@@ -112,6 +125,7 @@ def generate_launch_description():
             ],
         output='screen' 
     )
+    
     republisher_node_to_raw=Node(
         package='image_transport',
         executable='republish',
@@ -136,7 +150,7 @@ def generate_launch_description():
         arguments=[
             'diff_cont',
             '--controller-manager-timeout', '60',
-            '--param-file', os.path.join(get_package_share_directory(package_name), 'config', 'my_controllers.yaml'),
+            '--param-file', os.path.join(package_path, 'config', 'my_controllers.yaml'),
             '--ros-args', 
             '-r', '/diff_cont/cmd_vel:=/cmd_vel'
             ],
@@ -158,7 +172,7 @@ def generate_launch_description():
                 diff_drive_spawner],
         )
     )
-# subhanjal-pant@subhanjal-pant-Legion-5-15IRX10:~/Desktop/ROS/diff_drive_robot$ ros2 launch slam_toolbox online_async_launch.py params_file:=.src/articubot_one/config/mapper_params_online_async.yaml use_sim_time:=true
+    # subhanjal-pant@subhanjal-pant-Legion-5-15IRX10:~/Desktop/ROS/diff_drive_robot$ ros2 launch slam_toolbox online_async_launch.py params_file:=.src/articubot_one/config/mapper_params_online_async.yaml use_sim_time:=true
     slam_toolbox_node=IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             os.path.join(get_package_share_directory('slam_toolbox'), 'launch', 'online_async_launch.py')
@@ -166,8 +180,17 @@ def generate_launch_description():
         launch_arguments={
             'params_file' : slam_param_file,
             'use_sim_time': use_sim_time
-            
             }.items(),
+    )
+    
+    nav_node=IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            os.path.join(get_package_share_directory('nav2_bringup'), 'launch', 'navigation_launch.py'),
+        ]),
+        launch_arguments={
+            'params_file': nav2_params_file,
+            'use_sim_time': use_sim_time,
+        }.items()
     )
     
     
@@ -184,6 +207,7 @@ def generate_launch_description():
         spawn_entity,
         bridge,
         teleop_node,
+        
         # republisher_node,
         # republisher_node_to_raw,
         # joint_state_broadcaster_spawner,
@@ -192,5 +216,8 @@ def generate_launch_description():
         delay_diff_drive_spawner_after_broadcaster,
         # delay_rviz_after_diff_drive,
         twist_stamper,
+        twist_mux_node,
         slam_toolbox_node,
+        nav_node,
+        
     ])

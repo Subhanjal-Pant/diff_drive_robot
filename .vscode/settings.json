@@ -1,4 +1,5 @@
 {
     "github.copilot.chat.codeGeneration.useInstructionFiles": true,
-    "cmake.sourceDirectory": "/home/subhanjal-pant/Desktop/Everything/ROS_Jazzy/articulated_robotics/learning/my_bot/src/articubot_one"
+    "cmake.sourceDirectory": "/home/subhanjal-pant/Desktop/Everything/ROS_Jazzy/articulated_robotics/learning/my_bot/src/articubot_one",
+    "materialkv.pythonFile": "main.py"
 }
