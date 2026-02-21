@@ -1,5 +1,18 @@
 {
     "github.copilot.chat.codeGeneration.useInstructionFiles": true,
     "cmake.sourceDirectory": "/home/subhanjal-pant/Desktop/Everything/ROS_Jazzy/articulated_robotics/learning/my_bot/src/articubot_one",
-    "materialkv.pythonFile": "main.py"
+    "materialkv.pythonFile": "main.py",
+    "ROS2.distro": "jazzy",
+    "python.autoComplete.extraPaths": [
+        "/home/subhanjal-pant/Desktop/ROS/diff_drive_robot/build/serial_motor_demo",
+        "/home/subhanjal-pant/Desktop/ROS/diff_drive_robot/install/serial_motor_demo/lib/python3.12/site-packages",
+        "/home/subhanjal-pant/Desktop/ROS/diff_drive_robot/install/serial_motor_demo_msgs/lib/python3.12/site-packages",
+        "/opt/ros/jazzy/lib/python3.12/site-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/subhanjal-pant/Desktop/ROS/diff_drive_robot/build/serial_motor_demo",
+        "/home/subhanjal-pant/Desktop/ROS/diff_drive_robot/install/serial_motor_demo/lib/python3.12/site-packages",
+        "/home/subhanjal-pant/Desktop/ROS/diff_drive_robot/install/serial_motor_demo_msgs/lib/python3.12/site-packages",
+        "/opt/ros/jazzy/lib/python3.12/site-packages"
+    ]
 }
