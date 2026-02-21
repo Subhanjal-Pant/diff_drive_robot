@@ -106,6 +106,7 @@ def generate_launch_description():
             '/camera/image_raw@sensor_msgs/msg/Image[gz.msgs.Image',
             '/camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo', 
             '/camera/image_raw/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
+            '/imu@sensor_msgs/msg/Imu@gz.msgs.IMU',
 
         ],
         parameters=[{'use_sim_time': use_sim_time}],

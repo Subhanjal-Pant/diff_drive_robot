@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+    
+
+
+    <xacro:property name="link_one_base_radius" value="0.05"/>
+    <xacro:property name="link_one_base_length" value="0.05"/>
+    <xacro:property name="link_two_length" value="0.02"/>
+    <xacro:property name="link_three_length" value="0.015"/>
+    <xacro:property name="link_four_radius" value="0.025"/>
+    <xacro:property name="link_four_gripper_one" value="0.03"/>
+    <xacro:property name="link_four_gripper_two" value="0.01"/>
+    <xacro:property name="holder_x" value="0.05"/>
+    <xacro:property name="holder_y" value="0.015"/>
+    <xacro:property name="holder_z" value="0.05"/>
+
+
+    <material name="red">
+        <color rgba="1 0 0 1"/>
+    </material>
+
+    <link name="link_one">
+        <visual>
+            <geometry>
+                <cylinder radius="${link_one_base_radius}" length="${link_one_base_length}"/>
+            </geometry>
+            <!-- <material name='red'/> -->
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </visual>
+
+    </link>
+
+    <joint name="link_one_joint" type="continuous">
+        <parent link="chassis"/>
+        <child link="link_one"/>
+        <origin xyz='0 0 ${box_z/2+link_one_base_length/2}' rpy='0 0 0'/>
+        <axis xyz="0 0 1"/>
+
+    </joint>
+
+
+
+    <link name="base_link_and_link_two_holder">
+        <visual>
+            <geometry>
+                <box size="${holder_x} ${holder_y} ${holder_z}"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+
+    </link>
+<!-- 
+    <joint name="holder_joint" type="fixed">
+        <parent link="link_one"/>
+        <child link="base_link_and_link_two_holder"/>
+        <origin xyz='0 0 ${link_one_base_length/2 + holder_z/2}' rpy='0 0 0'/>
+    </joint> -->
+
+
+</robot>

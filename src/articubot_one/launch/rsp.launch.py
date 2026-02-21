@@ -21,7 +21,26 @@ def generate_launch_description():
         output='screen',
         parameters=[params],
     )
+    joint_state_publisher=Node(
+        package="joint_state_publisher",
+        executable='joint_state_publisher',
+        name='joint_state_publisher',
+        parameters=[params],
+    )
+    joint_state_publisher_gui=Node(
+        package='joint_state_publisher_gui',
+        executable='joint_state_publisher_gui',
+        parameters=[params]
+    )
 
+    rviz_node=Node(
+        package='rviz2',
+        executable='rviz2',
+        output='screen',
+        arguments=['-d', rviz_config_path],
+        parameters=[{'use_sim_time': use_sim_time}],
+    )
+ 
     
     return LaunchDescription([
         DeclareLaunchArgument(
@@ -31,6 +50,8 @@ def generate_launch_description():
         ),
         
         robot_state_publisher,
-    
+        joint_state_publisher,
+        joint_state_publisher_gui,
+        rviz_node
         
     ])
